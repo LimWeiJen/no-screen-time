@@ -5,7 +5,8 @@ import win32gui
 import win32con
 from win32api import GetSystemMetrics
 
-# Get the handle of the current foreground window
+data_file_path = "C:/Users/Lim Wei Jen/Documents/Coding Projects/no-screen-time/data.pkl"
+
 hwnd = win32gui.GetForegroundWindow()
 
 # Dictionary to store time used for each category
@@ -21,7 +22,7 @@ def defocus_window():
 
 # Function to retrieve times from a pickle file
 def get_times():
-    with open('data.pkl', 'rb') as file: return pickle.load(file)
+    with open(data_file_path, 'rb') as file: return pickle.load(file)
 
 # Initiates a countdown timer, bringing the window to the background during the countdown
 def start_timer(t):
@@ -54,14 +55,14 @@ def edit_time(time_name, new_time):
         if t.name == time_name:
             t.time = new_time
         times.append(t)
-    with open('data.pkl', 'wb') as file:
+    with open(data_file_path, 'wb') as file:
         pickle.dump(times, file)
 
 # Create a new time category
 def new_time(time_name, new_time):
     times = get_times()
     times.append(Time(time_name, new_time))
-    with open('data.pkl', 'wb') as file:
+    with open(data_file_path, 'wb') as file:
         pickle.dump(times, file)
 
 # Delete an existing time category
@@ -70,5 +71,5 @@ def delete_time(time_name):
     for t in get_times():
         if t.name != time_name:
             new_times.append(t)
-    with open('data.pkl', 'wb') as file:
+    with open(data_file_path, 'wb') as file:
         pickle.dump(new_times, file)

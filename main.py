@@ -1,6 +1,10 @@
 import os
+import winsound
+from dotenv import load_dotenv
 
 from lib import delete_time, edit_time, end_timer, focus_window, get_time_allocated, get_times, new_time, start_timer
+
+load_dotenv()
 
 # Clear the screen base in the operating system
 def _clear_screen():
@@ -27,6 +31,7 @@ def _use_specific_time_screen(time_name):
     _clear_screen()
     start_timer(new_time)
     end_timer(time_name, new_time)
+    winsound.PlaySound(os.getenv('AUDIO_FILE'), winsound.SND_FILENAME)
     _welcome_screen()
 
 def _use_time_screen():
